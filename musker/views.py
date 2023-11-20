@@ -119,7 +119,7 @@ def update_user(request):
 	else:
 		messages.success(request, ("You Must Be Logged In To View That Page..."))
 		return redirect('home')
-
+		
 def cipher_like(request, pk):
     if request.user.is_authenticated:
         cipher = get_object_or_404(Ciphers, id=pk)
@@ -133,7 +133,8 @@ def cipher_like(request, pk):
     else:
         messages.success(request, ("You Must Be Logged In To View That Page..."))
         return redirect('home')
-
+	    
+#allowing users to share ciphers
 def cipher_share(request,pk):
     cipher = get_object_or_404(Ciphers, id=pk)
     if cipher:
