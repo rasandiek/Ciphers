@@ -119,7 +119,8 @@ def update_user(request):
 	else:
 		messages.success(request, ("You Must Be Logged In To View That Page..."))
 		return redirect('home')
-		
+
+#allowing users to like each others ciphers
 def cipher_like(request, pk):
     if request.user.is_authenticated:
         cipher = get_object_or_404(Ciphers, id=pk)
