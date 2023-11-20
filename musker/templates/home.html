@@ -13,9 +13,11 @@
     <div class="container">
       <div class="row">
         <div class="col-1">
+           #adding a profile picture for the profile
           {% if cipher.user.profile.profile_image %}
             <img src="{{ cipher.user.profile.profile_image.url }}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
           {% else %}
+           #adding default picture if there's no profile picture
             <img src="{% static 'images/default_pic.jpg' %}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
           {% endif %}
         </div>
@@ -24,19 +26,20 @@
     <small class = "text-muted">
         {{ cipher.created_at}} By
         @{{ cipher.user.username}}
-        &nbsp;&nbsp;
+        &nbsp;&nbsp; #spaces
         {{cipher.number_of_likes}} 
 
         {% if user in cipher.likes.all %}
         <a href ="{%url 'cipher_like' cipher.id %}">
-
+             #fa is the font awesome emoji kit and adding heart for the likes and unlikes
           <i class="fa-solid fa-heart" style="color: red"></i></a>
-
+           
         {% else %}
         <a href ="{%url 'cipher_like' cipher.id %}">
           <i class="fa fa-heart-o" style="color: red"></i></a>
       {% endif %}
       &nbsp;&nbsp;
+       #adding share mark
       <a href="{% url 'cipher_share' cipher.id %}"><i class="fa-solid fa-share" style="color: gray"></i></a>
     
     </small>
