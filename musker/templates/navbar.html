@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark" style = "background-color: #6E2CF3;">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'home' %}">Dark Ciphers</a>
@@ -35,6 +36,8 @@
 <img src="{{ user.profile.profile_image.url }}" class="rounded-circle" width=33>
 {% else %}
 
+<img src="{% static 'images/default_pic.jpg' %}" class="img-fluid rounded-circle" alt="Profile Picture" width=33>
+              
 {% endif %}
             </a>
             
