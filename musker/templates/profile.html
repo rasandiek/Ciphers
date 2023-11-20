@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+
+
+
 
 {% if profile %}
 
@@ -8,19 +12,62 @@
            <div class="col-8"> <h1>{{ profile.user.username }}'s Profile</h1>
                <br/>
                {% if ciphers %}
-               {% for cipher in ciphers %}
-               <div class ="alert alert-primary" role="alert">
-                 {{ cipher.body }}<br/>
-    <small class = "text-muted">
-        {{ cipher.created_at}} By
-        @{{ cipher.user.username}}
-    </small></div>
+                {% for cipher in ciphers %}
+
+            <div class ="alert alert-primary" role="alert">
+    <div class = "container">
+        <div class ="row">
+            <div class = "col-1">
+                {% if profile.profile_image %}
+                    <img src="{{profile.profile_image.url}}"
+                    width=50  height=50 class = "rounded-circle" alt = {{profile.user.username}} >
+                
+
+                {% else %}
+                <img src = "{% static 'images/default_pic.jpg' %}"
+                width=50  height=50 class = "rounded-circle" alt = {{profile.user.username}}>
+                {% endif%}
+
+            </div>
+
+            <div class = "col-10">
+                            {{ cipher.body }} <br/>
+                            <small class = "text-muted">
+                                {{ cipher.created_at}} By
+                                @{{ cipher.user.username}}
+                                &nbsp;&nbsp;
+                                {{cipher.number_of_likes}} 
+
+                                {% if user in cipher.likes.all %}
+                                <a href ="{%url 'cipher_like' cipher.id %}">
+                                    <i class="fa-solid fa-heart" style="color: red"></i></a>
+
+                                {% else %}
+                                 <a href ="{%url 'cipher_like' cipher.id %}">
+                                    <i class="fa fa-heart-o" style="color: red"></i></a>
+                                 {% endif %}
+                                 &nbsp;&nbsp;
+      <a href="{% url 'cipher_share' cipher.id %}"><i class="fa-solid fa-share" style="color: gray"></i></a>
+                            </small>
+                        </div></small>
+
+            </div>
+        </div>
+    </div>
+
                {% endfor %}
                {% endif %}
            </div>
 
            <div class="col-4">
                <br/><br/><br/>
+               {% if profile.profile_image %}
+               <img src="{{ profile.profile_image.url }}" alt="Profile Picture" class="rounded-circle", style = "width: 30%; height: 20%; border-radius: 10%;object-fit: cover;">
+            
+				<br/><br/>
+				{% endif %}         
+
+
                <div class="card">
   <h5 class="card-header" style="background-color: #00CED1; color: #ffffff;">Follows</h5>
   <div class="card-body" style="background-color: #212529;">
@@ -55,6 +102,10 @@
 {% endif %}
 </form>
 <br/>
+
+{% if request.user.id == profile.user.id %}
+  <a href="{% url 'update_user' %}" class="btn btn-outline-secondary"> Update Profile</a>
+ {% endif%}
            </div>
        </div>
    </div>
