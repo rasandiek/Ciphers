@@ -38,9 +38,10 @@
                                 @{{ cipher.user.username}}
                                 &nbsp;&nbsp;
                                 {{cipher.number_of_likes}} 
-
+		
                                 {% if user in cipher.likes.all %}
                                 <a href ="{%url 'cipher_like' cipher.id %}">
+					#fa is the font awesome emoji kit and adding heart for the likes and unlikes
                                     <i class="fa-solid fa-heart" style="color: red"></i></a>
 
                                 {% else %}
