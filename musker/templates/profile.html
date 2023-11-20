@@ -18,6 +18,7 @@
     <div class = "container">
         <div class ="row">
             <div class = "col-1">
+		    #adding profile picture if there's profile picture if not adding default picture
                 {% if profile.profile_image %}
                     <img src="{{profile.profile_image.url}}"
                     width=50  height=50 class = "rounded-circle" alt = {{profile.user.username}} >
