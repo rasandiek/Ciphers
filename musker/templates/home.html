@@ -24,12 +24,12 @@
     <small class = "text-muted">
         {{ cipher.created_at}} By
         @{{ cipher.user.username}}
-        &nbsp;&nbsp; #spaces
+        &nbsp;&nbsp; 
         {{cipher.number_of_likes}} 
 
         {% if user in cipher.likes.all %}
         <a href ="{%url 'cipher_like' cipher.id %}">
-             #fa is the font awesome emoji kit and adding heart for the likes and unlikes
+             
           <i class="fa-solid fa-heart" style="color: red"></i></a>
            
         {% else %}
@@ -37,7 +37,7 @@
           <i class="fa fa-heart-o" style="color: red"></i></a>
       {% endif %}
       &nbsp;&nbsp;
-       #adding share mark
+       
       <a href="{% url 'cipher_share' cipher.id %}"><i class="fa-solid fa-share" style="color: gray"></i></a>
     
     </small>
