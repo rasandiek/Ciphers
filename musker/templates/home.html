@@ -16,7 +16,6 @@
           {% if cipher.user.profile.profile_image %}
             <img src="{{ cipher.user.profile.profile_image.url }}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
           {% else %}
-           #adding default picture if there's no profile picture
             <img src="{% static 'images/default_pic.jpg' %}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
           {% endif %}
         </div>
