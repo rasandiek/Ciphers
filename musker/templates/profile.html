@@ -72,7 +72,9 @@
   <h5 class="card-header" style="background-color: #00CED1; color: #ffffff;">Follows</h5>
   <div class="card-body" style="background-color: #212529;">
     <p class="card-text" >           {% for following in profile.follows.all %}
-               <a href="{% url 'profile' following.user.id %}">@{{ following }}</a><br/>
+               <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+    <a herf ='#'>
+    <i class="fa fa-user-times small" style="color: gray"></i></a><br/>
 
            {% endfor %}</p>
   </div>
