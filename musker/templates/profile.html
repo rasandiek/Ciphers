@@ -82,7 +82,7 @@
            <div class="card">
   <h5 class="card-header" style="background-color: #00CED1; color: #ffffff;">Followed By</h5>
   <div class="card-body"style="background-color: #212529;">
-    <p class="card-text">  {% for following in profile.Followed_by.all %}
+    <p class="card-text">  {% for following in profile.Followed_by.all|slice:5 %}
                <a href="{% url 'profile' following.user.id %}">@{{ following }}</a
 	       >&nbsp;&nbsp;
 
@@ -93,10 +93,16 @@
 	        <a herf ="{% url 'follow' following.user.id %}">
     <i class="fa fa-user-plus small" style="color: gray"></i></a>
 	        {% endif %}
+	    
 	       <br/>
 
            {% endfor %}
+	   <br/>
+	  
     </p>
+  </div>
+  <div class="card-footer">
+    <a herf = "{% url 'followers' profile.user.id %}">See All...<a/>
   </div>
 </div>
 <br/><br/>
