@@ -17,4 +17,6 @@ urlpatterns = [
     path('unfollow/<int:pk>', views.unfollow, name = "unfollow"),
     path('follow/<int:pk>', views.follow, name = "follow"),
     path('delete_cipher/<int:pk>', views.delete_cipher, name = "delete_cipher"),
+    path('edit_cipher/<int:pk>', views.edit_cipher, name = "edit_cipher"),
+    path('search/', views.search, name= 'search'),
 ]
