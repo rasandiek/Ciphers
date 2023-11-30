@@ -97,6 +97,17 @@ def followers(request, pk):
         messages.success(request, ("You Must Be Logged In to View This Page..."))
         return redirect('home')
 
+def follows(request, pk):
+    if request.user.is_authenticated:
+	if request.user.id == pk:	
+	    profiles = Profile.objects.get(user_id=pk)
+	    return render(request, 'follows.html', {"profiles": profiles})
+	else:
+	    messages.success(request, ("That's Not Your Profile..."))
+            return redirect('home')
+    else:
+        messages.success(request, ("You Must Be Logged In to View This Page..."))
+        return redirect('home')
 
 def login_user(request):
     if request.method == "POST":
@@ -183,3 +194,18 @@ def cipher_share(request,pk):
     else:
         messages.success(request, ("That Cipher Does Not Exist..."))
         return redirect('home')
+
+def delete_cipher(request, pk):
+    if request.user.is_authenticated:
+        cipher = get_object_or_404(Ciphers, id=pk)
+	if request.user.username == cipher.user.username:
+	     cipher.delete()
+	     return redirect('home')
+	     messages.success(request, ("Your Cipher Has Been Deleted!"))	    
+             return redirect(request.META.get("HTTP_REFERER"))
+	else:
+	     messages.success(request, ("You Don't Own This Cipher!"))	    
+             return redirect('home')
+    else:
+        messages.success(request, ("Plesase Log In To Continue Your Cipher"))	    
+        return redirect(request.META.get("HTTP_REFERER"))
