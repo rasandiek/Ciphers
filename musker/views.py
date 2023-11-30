@@ -200,7 +200,6 @@ def delete_cipher(request, pk):
         cipher = get_object_or_404(Ciphers, id=pk)
 	if request.user.username == cipher.user.username:
 	     cipher.delete()
-	     return redirect('home')
 	     messages.success(request, ("Your Cipher Has Been Deleted!"))	    
              return redirect(request.META.get("HTTP_REFERER"))
 	else:
@@ -209,3 +208,33 @@ def delete_cipher(request, pk):
     else:
         messages.success(request, ("Plesase Log In To Continue Your Cipher"))	    
         return redirect(request.META.get("HTTP_REFERER"))
+
+def edit_cipher(request, pk):
+    if request.user.is_authenticated:
+	cipher = get_object_or_404(Ciphers, id=pk)
+	if request.user.username == cipher.user.username:
+	        form = CiphersForm(request.POST or None, instance=cipher)
+	        if request.method=="POST":
+	            if form.is_valid():
+	                cipher = form.save(commit=False)
+	                cipher.user = request.user
+	                cipher.save()
+	                messages.success(request, ("Your whisper has been Updated!"))
+	                return redirect('home')
+		else:
+		    return render(request, "edit_cipher.html", {'form':form, 'cipher':cipher})
+	  	    
+	else:
+	     messages.success(request, ("You Don't Own This Cipher!"))	    
+             return redirect('home')
+    else:
+        messages.success(request, ("Plesase Log In To Continue Your Cipher"))	    
+        return redirect('home')
+
+def search(request):
+    if request.method == "POST":
+	search = request.POST['search']
+	searched = cipher.objects.filter(body__contains = search)
+        return render(request, 'search.html', {'search':search}, 'searched':searched)
+    else:
+	return render(request, 'search.html', {})
