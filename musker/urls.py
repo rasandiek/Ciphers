@@ -19,4 +19,5 @@ urlpatterns = [
     path('delete_cipher/<int:pk>', views.delete_cipher, name = "delete_cipher"),
     path('edit_cipher/<int:pk>', views.edit_cipher, name = "edit_cipher"),
     path('search/', views.search, name= 'search'),
+    path('search_user/', views.search_user, name= 'search_user'),
 ]
