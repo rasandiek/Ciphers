@@ -231,7 +231,7 @@ def edit_cipher(request, pk):
     else:
         messages.success(request, ("Plesase Log In To Continue Your Cipher"))	    
         return redirect('home')
-
+#serching for key words in ciphers and show them
 def search(request):
     if request.method == "POST":
 	search = request.POST['search']
