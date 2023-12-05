@@ -10,7 +10,7 @@ class ProfilePicForm(forms.ModelForm):
         model = Profile
         fields =    ('profile_image' , )
 	    
-# sign-up form which is used to gather data about user
+
 class CiphersForm(forms.ModelForm):
     body = forms.CharField(required=True,
                           widget=forms.widgets.Textarea(
@@ -26,7 +26,8 @@ class CiphersForm(forms.ModelForm):
     class Meta:
         model = Ciphers
         exclude = ("user", "likes",)
-
+	    
+# sign-up form which is used to gather data about user
 class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
 	first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
