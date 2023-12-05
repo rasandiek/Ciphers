@@ -208,7 +208,8 @@ def delete_cipher(request, pk):
     else:
         messages.success(request, ("Plesase Log In To Continue Your Cipher"))	    
         return redirect(request.META.get("HTTP_REFERER"))
-
+	    
+#edit ciphers repost again after editing
 def edit_cipher(request, pk):
     if request.user.is_authenticated:
 	cipher = get_object_or_404(Ciphers, id=pk)
