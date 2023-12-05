@@ -10,7 +10,7 @@ class ProfilePicForm(forms.ModelForm):
         model = Profile
         fields =    ('profile_image' , )
 	    
-
+#can write anything and post them
 class CiphersForm(forms.ModelForm):
     body = forms.CharField(required=True,
                           widget=forms.widgets.Textarea(
