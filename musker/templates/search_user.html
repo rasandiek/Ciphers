@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+        body {
+            background: linear-gradient(to right, #7117EA, #EA6060);
+        }
+    </style>
+<h1 style="color: white">Search Users!</h1>
+<br/>
+
+<form method =POST>
+    {% csrf_token %}
+<input type="input" class ="form-control" placeholder="Search Users!" name="search">
+    <br>
+  <button type="submit" class="btn btn-secondary" style = "background-color: #6E2CF3; color: #ffffff;">Search Users!</button>
+</form><br>
+
+{% if search %}
+<h3 style="color: white">You searched for: {{ search }} </h3> <br>
+{% endif %}
+{% if searched %}
+    {% for result in searched %}
+       <div class="card mb-3 text-center" style="max-width: 540px; background-color: transparent">
+  <div class="row g-0" style="border: 1px solid transparent;">
+    <div class="col-md-4 d-flex align-items-center justify-content-center" style="border: 1px solid #f3aafa; color: white;">
+      {% if result.profile.profile_image %}
+      <img src = "{{ result.profile.profile_image.url }}" width=200 height=200 class = "img-fluid rounded-start" alt = "{{result.profile.user.username}}">
+
+      {% else %}
+      <img src="{% static 'images/default_pic.jpg' %}" class="img-fluid rounded-start" alt="Profile Picture">
+
+      {% endif %}
+
+    </div>
+    <div class="col-md-8"  style = "background-color: transparent;border: 1px solid #f3aafa; color: white;">
+      <div class="card-body">
+        <h5 class="card-title">{{ result.profile.user.username }}</h5>
+        <p class="card-text"><a href="{% url 'profile' result.profile.user.id %}">@{{ result.profile.user.username }}</a></p>
+        <br/><br/>
+        <p class="card-text"><small class="text-body-secondary">Last Updated {{result.profile.date_modified}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+<br/><br/>
+    {% endfor %}
+{% else %}
+{% if searched == None %}
+
+{% else %}
+<H5 style="color: white"> Sorry, No Usernames containing {{search}} Exist, Please Try Again ... </H5>
+{% endif %}
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        body {
+            background: linear-gradient(to right, #7117EA, #EA6060);
+        }
+    </style>
+<h1 style="color: white">Profile List</h1>
+<br/>
+
+{% if profiles %}
+    {% for profile in profiles %}
+       <div class="card mb-3 text-center" style="max-width: 540px; background-color: transparent">
+           <div class="row g-0" style="border: 1px solid transparent;">
+    <div class="col-md-4 d-flex align-items-center justify-content-center" style="border: 1px solid #f3aafa; color: white;">
+      {% if profile.profile_image %}
+        <p>
+            <img src = "{{ profile.profile_image.url }}" width=200 height=200 class = "img-fluid rounded-start d-block" alt = "{{profile.user.username}}"></p>
+      {% else %}
+        <p><img src="{% static 'images/default_pic.jpg' %}" class="img-fluid rounded-start" alt="Profile Picture"></p>
+
+      {% endif %}
+      
+    </div>
+    <div class="col-md-8" style = "background-color: transparent;border: 1px solid #f3aafa; color: white;">
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.user.username }}</h5>
+        <p class="card-text"><a href="{% url 'profile' profile.user.id %}">@{{ profile.user.username }}</a></p>
+        <br/><br/>
+        <p class="card-text"><small class="text-body-secondary">Last Updated {{profile.date_modified}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+<br/><br/>
+    {% endfor %}
+{% endif %}
+</div>
+{% endblock %}

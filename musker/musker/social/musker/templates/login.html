@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(to right, #7117EA, #EA6060);
+    color: white;
+  }
+  .btn-transparent {
+    background-color: transparent;
+    border-color: white;
+    color: white;
+  }
+ </style>
+{% if user.is_authenticated %}
+<h1> You are already logged in!</h1>
+
+{% else %}
+<div class = "col-md-6 offset-md-3">
+
+<h1>Login</h1>
+<br/>
+<form method = "POST" action = "{% url "login" %}">
+    {% csrf_token %}
+    <div class="mb-3">
+      <input type="text" class="form-control" name = "username" placeholder="Enter Your Username">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" name = "password" placeholder="Enter Your Password">
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-transparent">Log In</button>
+  </form>
+</div>
+
+
+{% endif%}
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+{% if profile %}
+
+   <div class ="container text-center">
+       <div class="row">
+           <div class="col-8"> <h1 style="color:white;">{{ profile.user.username }}'s Profile</h1>
+               <br/>
+               {% if ciphers %}
+                {% for cipher in ciphers %}
+
+            <div class ="alert alert-primary" role="alert">
+    <div class = "container">
+        <div class ="row">
+            <div class = "col-1">
+                {% if profile.profile_image %}
+                    <img src="{{profile.profile_image.url}}"
+                    width=50  height=50 class = "rounded-circle" alt = {{profile.user.username}} >
+                
+
+                {% else %}
+                <img src = "{% static 'images/default_pic.jpg' %}"
+                width=50  height=50 class = "rounded-circle" alt = {{profile.user.username}}>
+                {% endif%}
+
+            </div>
+
+            <div class = "col-10">
+                            {{ cipher.body }} <br/>
+                            <small class = "text-muted" style="color: #f3aafa  !important;">
+                                {{ cipher.created_at}} By
+                                @{{ cipher.user.username}}
+                                &nbsp;&nbsp;
+                                {{cipher.number_of_likes}} 
+
+                                {% if user in cipher.likes.all %}
+                                <a href ="{%url 'cipher_like' cipher.id %}">
+                                    <i class="fa-solid fa-heart" style="color: red"></i></a>
+
+                                {% else %}
+                                 <a href ="{%url 'cipher_like' cipher.id %}">
+                                    <i class="fa fa-heart-o" style="color: red"></i></a>
+                                 {% endif %}
+                                 &nbsp;&nbsp;
+      <a href="{% url 'cipher_share' cipher.id %}"><i class="fa-solid fa-share" style="color: #f3aafa"></i></a>
+                                &nbsp;&nbsp;
+                                {% if request.user.username == profile.user.username %}
+                                <a href="{% url 'delete_cipher' cipher.id %}"><i class="fas fa-trash-alt" style="color: #f3aafa"></i></a>
+                                &nbsp;&nbsp;
+                                {% endif %}
+                               <a href="{% url 'edit_cipher' cipher.id %}"><i class="fas fa-edit" style="color: #f3aafa"></i></a>
+
+                            </small>
+                        </div></small>
+
+            </div>
+        </div>
+    </div>
+
+               {% endfor %}
+               {% endif %}
+           </div>
+
+           <div class="col-4">
+               <br/><br/><br/>
+               {% if profile.profile_image %}
+               <img src="{{ profile.profile_image.url }}" alt="Profile Picture" class="rounded-circle", style = "width: 55%; height: 20%; border-radius: 50%; object-fit: cover;">
+            
+				<br/><br/>
+				{% endif %}
+
+                {% if profile.homepage_link %}
+               <a href ="{{profile.homepage_link }}" target ="new">
+                   <i class ="fa-solid fa-link" style="color:white"></i></a>
+                {% endif %}
+               &nbsp;&nbsp;
+               {% if profile.facebook_link %}
+               <a href ="{{profile.facebook_link }}" target ="new">
+                   <i class = "fa-brands fa-facebook-f" style="color:white"></i></a>
+               {% endif %}
+               &nbsp;&nbsp;
+               {% if profile.instagram_link %}
+               <a href ="{{profile.instagram_link }}" target="new">
+                   <i class="fa-brands fa-instagram" style="color:white"></i></a>
+               {% endif %}
+               &nbsp;&nbsp;
+               {% if profile.linkedin_link %}
+               <a href ="{{profile.linkedin_link }}" target="new">
+                   <i class="fa-brands fa-linkedin-in" style="color:white"></i></a>
+               {% endif %} <br><br>
+
+               {% if profile.profile_bio %}
+               {{profile.profile_bio }}
+               {% endif %}
+               <br><br>
+
+
+               <div class="card">
+  <h5 class="card-header" style="background-color: #00CED1; color: #ffffff;">Follows</h5>
+  <div class="card-body" style="background-color: #212529;">
+    <p class="card-text" >           {% for following in profile.follows.all %}
+               <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+        <a href="{% url 'unfollow' following.user.id %}">
+            <i class="fa fa-circle-minus small" style="color:white" ></i>
+</a><br/>
+
+           {% endfor %}</p>
+  </div>
+                   <div class="card-footer" style="background-color: #212529;"> <a href="{% url 'follows' profile.user.id %}">See All .. </a> </div>
+
+</div> <br/><br/>
+           <div class="card">
+  <h5 class="card-header" style="background-color: #00CED1; color: #ffffff;">Followed By</h5>
+  <div class="card-body"style="background-color: #212529;">
+    <p class="card-text">
+        {% for following in profile.Followed_by.all|slice:3 %}
+               <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
+        &nbsp;&nbsp;
+        {% if following in profile.follows.all %}
+        <a href ="{% url 'unfollow' following.user.id %}">
+            <i class="fa fa-user-minus small" style="color:white"></i>
+        </a><br>
+        {% else %}
+                <a href ="{% url 'follow' following.user.id %}">
+            <i class="fa fa-user-plus small" style="color:white"></i><br>
+        </a>
+        {% endif %}
+           {% endfor %}
+        <br>
+
+    </p>
+  </div>
+                <div class="card-footer" style="background-color: #212529;"> <a href="{% url 'followers' profile.user.id %}">See All .. </a> </div>
+</div>
+<br/><br/>
+
+<form method = POST>
+{% csrf_token %}
+{% if profile in user.profile.follows.all %}
+    <button class = "btn btn-outline-danger" name="follow" value ="unfollow" type="submit">Unfollow @{{ profile.user.username|lower }}
+    </button>
+
+{% else %}
+    <button class = "btn btn-outline-success" name="follow" value ="follow" type="submit">Follow @{{ profile.user.username|lower }}
+    </button>
+
+{% endif %}
+</form>
+<br/>
+
+{% if request.user.id == profile.user.id %}
+  <a href="{% url 'update_user' %}" class="btn btn-outline-secondary"> Update Profile</a>
+ {% endif%}
+           </div>
+       </div>
+   </div>
+
+{% endif %}
+{% endblock %}

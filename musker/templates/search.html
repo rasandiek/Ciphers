@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        body {
+            background: linear-gradient(to right, #7117EA, #EA6060);
+        }
+    </style>
+
+<h1 style="color: white">Search Ciphers!</h1>
+<br/>
+
+<form method =POST>
+    {% csrf_token %}
+<input type="input" class ="form-control" placeholder="Search Ciphers!" name="search">
+    <br>
+  <button type="submit" class="btn btn-secondary" style = "background-color: #6E2CF3; color: #ffffff;">Search Cipher!</button>
+</form><br>
+
+{% if search %}
+<h3 style="color: white">You searched for: {{ search }} </h3> <br>
+{% for cipher in searched %}
+  <div class="alert alert-dark" role="alert">
+    <div class="container">
+      <div class="row">
+        <div class="col-1">
+          {% if cipher.user.profile.profile_image %}
+            <img src="{{ cipher.user.profile.profile_image.url }}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
+          {% else %}
+            <img src="{% static 'images/default_pic.jpg' %}" width=50 height=50 class="rounded-circle" alt="{{ cipher.user.username }}">
+          {% endif %}
+        </div>
+        <div class="col-11">
+        {{ cipher.body }}<br/>
+    <small class = "text-muted" style="color: white  !important;">
+        {{ cipher.created_at}} By
+        @{{ cipher.user.username}}
+        &nbsp;&nbsp;
+        {{cipher.number_of_likes}}
+
+        {% if user in cipher.likes.all %}
+        <a href ="{%url 'cipher_like' cipher.id %}">
+
+          <i class="fa-solid fa-heart" style="color: red"></i></a>
+
+        {% else %}
+        <a href ="{%url 'cipher_like' cipher.id %}">
+          <i class="fa fa-heart-o" style="color: red"></i></a>
+      {% endif %}
+      <a href="{% url 'cipher_share' cipher.id %}"><i class="fa-solid fa-share" style="color: white"></i></a>
+
+    </small>
+      </div>
+    </div>
+  </div>
+           </div>
+<div class = "col-4">
+  <br/>
+
+{% if form %}
+<form method =POST>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-secondary" style = "background-color: #6E2CF3; color: #ffffff;">Share Cipher!</button>
+</form>
+{% endif %}
+</div>
+<br><br><br><br>
+
+{% endfor %}
+{% endif %}
+{% endblock %}
