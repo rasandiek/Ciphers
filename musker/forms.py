@@ -9,7 +9,8 @@ class ProfilePicForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields =    ('profile_image' , )
-
+	    
+# sign-up form which is used to gather data about user
 class CiphersForm(forms.ModelForm):
     body = forms.CharField(required=True,
                           widget=forms.widgets.Textarea(
