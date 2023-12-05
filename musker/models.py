@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
-
+#Create a cipher model
 class Ciphers(models.Model):
     user = models.ForeignKey(
         User, related_name="ciphers",
